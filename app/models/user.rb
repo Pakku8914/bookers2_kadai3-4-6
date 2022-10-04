@@ -16,9 +16,11 @@ class User < ApplicationRecord
 
   # フォローされている人
   # Relationshipモデルに対して、followed_idを見てreverse_of_relationshipsという名前でアソシエーション
+  # foreign_key(FK)には、@user.xxxとした際に「@user.idがfollower_idかfollowed_idなのか」を指定
   has_many :reverse_of_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
   # フォローされている人の情報が欲しい => フォローしている人の情報を取得
   # reverse_of_relationshipsを経由し、follower(belongs_toのやつ)カラムに対してfollowersという名前でアソシエーション
+  # そのユーザーがフォローしている人orフォローされている人の一覧を出したい
   has_many :followers, through: :reverse_of_relationships, source: :follower
 
   # フォローしている人
